@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 
 ## SI 206 - W17 - HW4
 ## COMMENT WITH:
-## Your section day/time:
-## Any names of people you worked with on this assignment:
+## Your section day/time: Thursday 3-4 PM
+## Any names of people you worked with on this assignment: N/A
 
 #####################
 
@@ -14,6 +14,23 @@ from bs4 import BeautifulSoup
 
 ## Write the Python code to do so here.
 
+cache_filename = 'nytimes_data.html'
+
+try:
+	f = open(cache_filename,'r')
+	text_data_from_site = f.read()
+	f.close()
+
+except:
+	r = requests.get("http://www.nytimes.com")
+	
+	text_data_from_site = r.text
+	
+	f = open(cache_filename,'w')
+	
+	f.write(text_data_from_site)
+
+	f.close()
 
 
 
