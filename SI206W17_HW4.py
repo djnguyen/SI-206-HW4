@@ -71,8 +71,7 @@ for headline in the_soup.find_all(class_='story-heading'):
 		ny_times_headlines_all.append(headline.contents[0].strip())
 
 
-nytimes_headlines = ny_times_headlines_all[0:9]
-
+nytimes_headlines = ny_times_headlines_all[0:10]
 
 
 #####################
@@ -92,12 +91,14 @@ nytimes_headlines = ny_times_headlines_all[0:9]
 
 ## Write code to complete this task here. We've gotten you started... note that it'll be difficult to continue if you don't understand what the provided code does!
 
-# response = requests.get("https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All")
-# htmldoc = response.text
+response = requests.get("https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All")
+htmldoc = response.text
 
-# soup = BeautifulSoup(htmldoc,"html.parser")
-# people = soup.find_all("div",{"class":"views-row"})
-# umsi_titles = {}
+soup = BeautifulSoup(htmldoc,"html.parser")
+people = soup.find_all("div",{"class":"views-row"})
+umsi_titles = {}
+
+
 
 ## It may be helpful to translate the following from English to code:
 
@@ -106,14 +107,12 @@ nytimes_headlines = ny_times_headlines_all[0:9]
 ## Find the container that holds the title that belongs to that person (HINT: a class name)
 ## Grab the text of each of those elements and put them in the dictionary umsi_titles properly
 
+for a_person in people:
+	
+	the_persons_name = a_person.find("div", {"property":"dc:title"})
+	the_persons_title = a_person.find("div", {"class": "field field-name-field-person-titles field-type-text field-label-hidden"})
 
-
-
-
-
-
-
-
+	umsi_titles[the_persons_name.text] = the_persons_title.text
 
 ######### UNIT TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE #########
 #### NOTE: hard-coding to pass any of these tests w/o following assignment instructions is not acceptable for points
@@ -125,15 +124,15 @@ class HW4_Part2(unittest.TestCase):
 	def length_of_ten(self):
 		self.assertEqual(len(nytimes_headlines),10, "Testing that there are ten headlines in the list")
 
-# class HW4_Part3(unittest.TestCase):
-# 	def test_key_value(self):
-# 		self.assertEqual(umsi_titles["Eytan Adar"],"Associate Professor of Electrical Engineering and Computer Science, College of Engineering and Associate Professor of Information, School of Information", "Testing one key-value pair that should be in your umsi_titles diction")
-# 	def test_key_value2(self):
-# 		self.assertEqual(umsi_titles["Ben Armes"],"Videographer", "Testing another key-value pair that should be in your umsi_titles diction")
-# 	def test_len_items(self):
-# 		self.assertEqual(len(umsi_titles.keys()),20, "Testing that there are 20 keys in the dictionary umsi_titles")
-# 	def test_full_dict_items(self): 
-# 		self.assertEqual(sorted(umsi_titles.items()),[('Alicia Baker', 'Administrative Assistant'), ('Andrea Barbarin', 'PhD student'), ('Ben Armes', 'Videographer'), ('Daniel Atkins III', 'Professor Emeritus of Information, School of Information and Professor Emeritus of Electrical Engineering and Computer Science, College of Engineering'), ('Deborah Apsley', 'Director of Human Resources and Support Services'), ('Eytan Adar', 'Associate Professor of Electrical Engineering and Computer Science, College of Engineering and Associate Professor of Information, School of Information'), ('Julia Adler-Milstein', 'Associate Professor of Information, School of Information and Associate Professor of Health Management and Policy, School of Public Health'), ('Lindsay Blackwell', 'PhD student'), ('Mark Ackerman', 'George Herbert Mead Collegiate Professor of Human-Computer Interaction, Professor of Information, School of Information and Professor of Electrical Engineering and Computer Science, College of Engineering'), ('Marsha Antal', 'School Registrar'), ('Mohamed Abbadi', 'PhD student'), ('Nancy Benovich Gilby', 'Ehrenberg Director of Entrepreneurship, Adjunct Clinical Associate Professor of Information and Research Investigator, School of Information'), ('Rasha Alahmad', 'PhD student'), ('Reginald Beasley', 'Admissions and Student Affairs Assistant'), ('Sarah Argiero', 'Academic Advisor'), ('Seyram Avle', 'Research Investigator, Information and Research Fellow, School of Information'), ('Tawfiq Ammari', 'PhD student'), ('Todd Ayotte', 'Director of Finance'), ('Vadim Besprozvany', 'Lecturer III in Information, School of Information and Intermittent Lecturer in Residential College, College of Literature, Science, and the Arts'), ('Wei Ai', 'PhD student')], "Testing the entire dictionary contents")
+class HW4_Part3(unittest.TestCase):
+	def test_key_value(self):
+		self.assertEqual(umsi_titles["Eytan Adar"],"Associate Professor of Electrical Engineering and Computer Science, College of Engineering and Associate Professor of Information, School of Information", "Testing one key-value pair that should be in your umsi_titles diction")
+	def test_key_value2(self):
+		self.assertEqual(umsi_titles["Ben Armes"],"Videographer", "Testing another key-value pair that should be in your umsi_titles diction")
+	def test_len_items(self):
+		self.assertEqual(len(umsi_titles.keys()),20, "Testing that there are 20 keys in the dictionary umsi_titles")
+	def test_full_dict_items(self): 
+		self.assertEqual(sorted(umsi_titles.items()),[('Alicia Baker', 'Administrative Assistant'), ('Andrea Barbarin', 'PhD student'), ('Ben Armes', 'Videographer'), ('Daniel Atkins III', 'Professor Emeritus of Information, School of Information and Professor Emeritus of Electrical Engineering and Computer Science, College of Engineering'), ('Deborah Apsley', 'Director of Human Resources and Support Services'), ('Eytan Adar', 'Associate Professor of Electrical Engineering and Computer Science, College of Engineering and Associate Professor of Information, School of Information'), ('Julia Adler-Milstein', 'Associate Professor of Information, School of Information and Associate Professor of Health Management and Policy, School of Public Health'), ('Lindsay Blackwell', 'PhD student'), ('Mark Ackerman', 'George Herbert Mead Collegiate Professor of Human-Computer Interaction, Professor of Information, School of Information and Professor of Electrical Engineering and Computer Science, College of Engineering'), ('Marsha Antal', 'School Registrar'), ('Mohamed Abbadi', 'PhD student'), ('Nancy Benovich Gilby', 'Ehrenberg Director of Entrepreneurship, Adjunct Clinical Associate Professor of Information and Research Investigator, School of Information'), ('Rasha Alahmad', 'PhD student'), ('Reginald Beasley', 'Admissions and Student Affairs Assistant'), ('Sarah Argiero', 'Academic Advisor'), ('Seyram Avle', 'Research Investigator, Information and Research Fellow, School of Information'), ('Tawfiq Ammari', 'PhD student'), ('Todd Ayotte', 'Director of Finance'), ('Vadim Besprozvany', 'Lecturer III in Information, School of Information and Intermittent Lecturer in Residential College, College of Literature, Science, and the Arts'), ('Wei Ai', 'PhD student')], "Testing the entire dictionary contents")
 
 if __name__ == "__main__":
 	unittest.main(verbosity=2)
