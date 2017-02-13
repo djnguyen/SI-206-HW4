@@ -32,8 +32,6 @@ except:
 
 	f.close()
 
-
-
 #####################
 
 ## PART 2 (200 points)
@@ -72,7 +70,8 @@ for headline in the_soup.find_all(class_='story-heading'):
 
 
 nytimes_headlines = ny_times_headlines_all[0:10]
-print (nytimes_headlines)
+
+#print (nytimes_headlines)
 
 #####################
 
